@@ -21,7 +21,7 @@ void user_lock_dekker::lock(int thread_id) {
             m_flag[thread_id].store(false);
             // fence here: ensure flag[thread_id]=false is globally visible before reading m_turn
 
-            while (m_turn.load() != thread_id);
+            while (m_turn.load() != thread_id) {}
             // fence here: ensure m_turn observation is committed with respect to later flag set
 
             m_flag[thread_id].store(true);

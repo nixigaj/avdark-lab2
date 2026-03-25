@@ -69,7 +69,7 @@ public:
      */
     virtual int get() = 0;
 
-    virtual ~atomic_counter(){};
+    virtual ~atomic_counter()= default;
 };
 
 /*******************************************************************************

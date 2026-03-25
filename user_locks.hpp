@@ -14,7 +14,7 @@ public:
     virtual void lock(int thread_id) = 0;
     virtual void unlock(int thread_id) = 0;
 
-    virtual ~user_lock(){};
+    virtual ~user_lock()= default;
 };
 
 /*******************************************************************************
@@ -38,8 +38,8 @@ class user_lock_dekker : public user_lock {
 private:
     // TODO: Change the types as necessary
     // NOTE: The lock supports only two threads
-    std::atomic<bool> m_flag[2];
-    std::atomic<int> m_turn;
+    std::atomic<bool> m_flag[2]{};
+    std::atomic<int> m_turn{};
 
 public:
     user_lock_dekker();
@@ -60,7 +60,7 @@ private:
     // using statically. Note that this SHOULD NOT be indexed based on the
     // thread_id. We allocate one cell for each lock and one extra cell to be
     // used as the initial unlocked tail.
-    cell m_cells[3];
+    cell m_cells[3]{};
 
     // This struct keeps track of the information that is local to each thread
     struct local_l {
@@ -73,7 +73,7 @@ private:
     // The lock supports only two threads. Here we allocate the local
     // information we will be using statically. Each thread can access its local
     // information using m_local[thread_id].
-    local_l m_local[2];
+    local_l m_local[2]{};
 
     // This pointer stores the tail of the lock
     std::atomic<cell *> m_tail;
